@@ -1,0 +1,6 @@
+{
+    "courses": "http://localhost:8000/api/courses/",
+    "private/courses": "http://localhost:8000/api/private/courses/",
+    "materials": "http://localhost:8000/api/materials/",
+    "comments": "http://localhost:8000/api/comments/"
+}
