@@ -1,0 +1,961 @@
+{
+	"info": {
+		"_postman_id": "e9ca4442-6212-4e21-a5d0-ab324a57dd03",
+		"name": "Platzi-curso-postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "Filtros",
+					"item": [
+						{
+							"name": "F-page_size&page",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/courses/?page_size=5&page=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"courses",
+										""
+									],
+									"query": [
+										{
+											"key": "page_size",
+											"value": "5"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								},
+								"description": "**FILTRO ->** page_size & page\n\n**DETALLE:** Obtenemos los cursos filtrando por tamaño de página (page_size=5):  \n**Response ->** Nos mostrara solo 5 json cursos y si hay 9 cursos en la page=2 se mostrara lo restante.  \n**Method ->** Get  \n**Entity ->** Courses"
+							},
+							"response": []
+						},
+						{
+							"name": "F-ordering",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/courses/?ordering=ranking",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"courses",
+										""
+									],
+									"query": [
+										{
+											"key": "ordering",
+											"value": "ranking"
+										}
+									]
+								},
+								"description": "**FILTRO ->** ordering\n\n**DETALLE:** El Filtro Ordering nos permite ordenar por campo.\n\n**Ejm:**  \n*ordering=ranking* **\\->** Nos ordena en orden ascendente.  \n*ordering=-ranking* **\\->** Nos ordena en orden descendente.  \n  \n**Response ->** nos mostrara los cursos ordenados por ranking.  \n**Method ->** Get  \n**Entity ->** Courses"
+							},
+							"response": []
+						},
+						{
+							"name": "F-begin_date",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Guardar en el environment el dia de hoy\r",
+											"pm.environment.set(\"today\", new Date().toISOString())"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/courses/?begin_date={{today}}&page=1&page_size=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"courses",
+										""
+									],
+									"query": [
+										{
+											"key": "begin_date",
+											"value": "{{today}}"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "page_size",
+											"value": "1"
+										}
+									]
+								},
+								"description": "**FILTRO ->** begin_date\n\n**DETALLE:** Obtenemos los cursos >= a la fecha mencionada.  \n\n**Ejm:**  \n*?begin_date=2022-03-01*\n\n**Response ->** Nos mostrara solo los cursos cuya fecha de creación sea >= a la fecha seleccionada.  \n**Method ->** Get  \n**Entity ->** Courses"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get-Courses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/courses/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get-Materials_x_idmaterial",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/materials/1/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"materials",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get-Comments_x_idmaterial",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/materials/1/comments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"materials",
+								"1",
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "R-Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// var json = JSON.parse(responseBody); //de JSON a String\r",
+									"// postman.setEnvironmentVariable(\"token\", `Token ${json.token}`)\r",
+									"\r",
+									"// Test para validar -> HTTP Status Code is 200\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test para validar -> Response is JSON\r",
+									"pm.test(\"Response should be JSON\", function(){\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"// Test para validar -> Response contiene la key Token y Crear VE token\r",
+									"pm.test(\"Response should contains token\", function(){\r",
+									"    pm.response.to.have.jsonBody(\"token\"); //El Response tipo JSON debe tener la key token\r",
+									"    pm.environment.unset(\"token\"); // Limpiar la V.E token en caso exista.\r",
+									"    var json = JSON.parse(responseBody); // Parseamos el Response de Cadena JSON a Objeto JS\r",
+									"    pm.environment.set(\"token\", `Token ${json.token}`); \r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\t{\r\n\t\t\t\"username\":\"superadmin\",\r\n\t\t\t\"password\":\"ThisIs@SecurePassw0rd\"\r\n\t}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/api-token-auth/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"api-token-auth",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "R-Add Comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validar\r",
+									"pm.test(\"Success POST Request\", function(){\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201], 202);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"content\": \"This is a comment 1\",\r\n        \"material\": 5\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/comments/",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "R-Add Course",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0e6f4141d042dbdbb6b725402e5cac601b55021",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\t\"name\": \"Curso de Ansible\",\r\n\t\t\"description\": \"Curso donde se aprendera a usar Ansible\",\r\n\t\t\"teachers\": [{\r\n\t\t\t\"name\": \"Jhordan Escobar\",\r\n\t\t\t\"description\": \"Devops Enginner\",\r\n\t\t\t\"current_job\": \"SRE in Xertica\"\r\n\t\t}],\r\n\t\t\"ranking\": \"8.00\"\r\n\t}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/courses/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "R-Add Like & Dislike",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0e6f4141d042dbdbb6b725402e5cac601b55021",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/comments/1/like/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"comments",
+								"1",
+								"like",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "R-Get-Comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/materials/1/comments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"materials",
+								"1",
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PUT, PATCH Y OPTIONS",
+			"item": [
+				{
+					"name": "R-Authentication",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/api-token-auth/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"api-token-auth",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "R-Comments/2/",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0e6f4141d042dbdbb6b725402e5cac601b55021",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/comments/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"comments",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "R-Patchear Comment",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0e6f4141d042dbdbb6b725402e5cac601b55021",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Thiss is a comment 2\",\r\n    \"material\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/comments/2/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"comments",
+								"2",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "R-Update Comment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0e6f4141d042dbdbb6b725402e5cac601b55021",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"This is a comment 2\",\r\n    \"likes\": 2,\r\n    \"material\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/comments/2/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"comments",
+								"2",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Setting Comment",
+					"request": {
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/comments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"comments",
+								""
+							]
+						},
+						"description": "# This is descriptions for the comments settings\n\n*   `renders`:  \n    application/json  \n    text/html\n    \n\n*   `parses`:  \n    application/json  \n    application/x-www-form-urlencoded  \n    multipart/form-data\n    \n\n*   `actions`:  \n    POST"
+					},
+					"response": [
+						{
+							"name": "Setting Comment Success",
+							"originalRequest": {
+								"method": "OPTIONS",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/comments/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"comments",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 16 Mar 2022 20:37:19 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.15"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "725"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"Comment List\",\n    \"description\": \"\",\n    \"renders\": [\n        \"application/json\",\n        \"text/html\"\n    ],\n    \"parses\": [\n        \"application/json\",\n        \"application/x-www-form-urlencoded\",\n        \"multipart/form-data\"\n    ],\n    \"actions\": {\n        \"POST\": {\n            \"id\": {\n                \"type\": \"integer\",\n                \"required\": false,\n                \"read_only\": true,\n                \"label\": \"ID\"\n            },\n            \"content\": {\n                \"type\": \"string\",\n                \"required\": true,\n                \"read_only\": false,\n                \"label\": \"Content\"\n            },\n            \"likes\": {\n                \"type\": \"integer\",\n                \"required\": false,\n                \"read_only\": false,\n                \"label\": \"Likes\",\n                \"min_value\": -2147483648,\n                \"max_value\": 2147483647\n            },\n            \"created_at\": {\n                \"type\": \"datetime\",\n                \"required\": false,\n                \"read_only\": true,\n                \"label\": \"Created at\"\n            },\n            \"updated_at\": {\n                \"type\": \"datetime\",\n                \"required\": false,\n                \"read_only\": true,\n                \"label\": \"Updated at\"\n            },\n            \"material\": {\n                \"type\": \"field\",\n                \"required\": true,\n                \"read_only\": false,\n                \"label\": \"Material\"\n            }\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"This is a comment x\",\r\n    \"material\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/comments/",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"comments",
+								""
+							]
+						},
+						"description": "# This is the description for comments creations\n\nRequest:\n\n*   `content`: `String` especify the content of a comment.\n- `material`: `Int` especify the material."
+					},
+					"response": [
+						{
+							"name": "Create Comment Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"A Comment 2\",\r\n    \"material\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}/comments/",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"comments",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 15 Mar 2022 21:09:22 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.15"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "141"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 8,\n    \"content\": \"A Comment 2\",\n    \"likes\": 0,\n    \"created_at\": \"2022-03-15T21:09:22.957102Z\",\n    \"updated_at\": \"2022-03-15T21:09:22.957131Z\",\n    \"material\": 2\n}"
+						},
+						{
+							"name": "Create Comment Failed 400",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}/comments/",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"comments",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 15 Mar 2022 21:17:40 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.15"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "78"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"content\": [\n        \"This field is required.\"\n    ],\n    \"material\": [\n        \"This field is required.\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Find Comment x ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}/comments/9/",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"comments",
+								"9",
+								""
+							]
+						},
+						"description": "# This is description for the find comment\n\n- `Method`: GET\n\n- `URL`: [http://localhost:8000/api/comments/9/]"
+					},
+					"response": [
+						{
+							"name": "Find Comment x ID Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}/comments/9/",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"comments",
+										"9",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 16 Mar 2022 21:02:09 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.15"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "149"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 9,\n    \"content\": \"This is a comment x\",\n    \"likes\": 0,\n    \"created_at\": \"2022-03-16T20:59:55.610219Z\",\n    \"updated_at\": \"2022-03-16T20:59:55.610243Z\",\n    \"material\": 3\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Courses",
+			"item": [
+				{
+					"name": "View Courses",
+					"request": {
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}/comments/",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Courses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/courses/",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Materials",
+			"item": [
+				{
+					"name": "Setting Materials",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/materials/",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"materials",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Material x ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/materials/5/",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"materials",
+								"5",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
